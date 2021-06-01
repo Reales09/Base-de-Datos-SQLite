@@ -65,5 +65,23 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    fun eliminar(view: View){
+        val con = SQLite(this,"tienda",null,1)
+        val baseDatos=con.writableDatabase
+        val codigo=txtCodigo?.text.toString()
+        if (codigo.isEmpty()==false){
+            val cant=baseDatos.delete("productos","codigo='"+codigo+"'",null)
+            if (cant>0){
+                Toast.makeText(this, "El producto fue eliminado", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "El producto no se encontro", Toast.LENGTH_SHORT).show()
+            }
+            txtCodigo?.setText("")
+            txtDescripcion?.setText("")
+            txtPrecio?.setText("")
+        }else{
+            Toast.makeText(this, "El campo codigo debe tener texto", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     }
