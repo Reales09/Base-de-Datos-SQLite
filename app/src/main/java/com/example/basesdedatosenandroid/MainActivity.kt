@@ -83,5 +83,31 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "El campo codigo debe tener texto", Toast.LENGTH_SHORT).show()
         }
     }
+    fun editar(view: View){
+        val con=SQLite(this,"tienda",null,1)
+        val baseDatos=con.writableDatabase
+
+        val codigo=txtCodigo?.text.toString()
+        val descripcion=txtDescripcion?.text.toString()
+        val precio=txtPrecio?.text.toString()
+
+        if (!codigo.isEmpty() && !descripcion.isEmpty() && !precio.isEmpty() ){
+            var registro=ContentValues()
+            registro.put("codigo",codigo)
+            registro.put("descripcion",descripcion)
+            registro.put("precio",precio)
+            
+            val cant=baseDatos.update("productos",registro,"codigo='$codigo'",null)
+            
+            if (cant>0){
+                Toast.makeText(this, "El registro se modifico exitosamente", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "El registro no fue encontrado", Toast.LENGTH_SHORT).show()
+            }
+
+        }else{
+            Toast.makeText(this, "Los campos no deben estar vacios", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     }
